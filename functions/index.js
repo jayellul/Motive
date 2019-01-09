@@ -1,0 +1,172 @@
+// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
+const functions = require('firebase-functions');
+
+// The Firebase Admin SDK to access the Firebase Realtime Database.
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+//exports.dbWrite = functions.database.ref('/users/{uid}/display').onWrite((change, context) => {
+//	const beforeData = change.before.val(); // data before the write
+//	const afterData = change.after.val(); // data after the write
+//	console.log(beforeData)
+//	console.log(afterData)
+//});
+
+// cron guide
+// https://firebase.googleblog.com/2017/03/how-to-schedule-cron-jobs-with-cloud.html
+
+// THIS JOB IS RAN EVERY HOUR : 
+// https://console.firebase.google.com/project/wyddatabase/functions/logs?search=&severity=DEBUG
+// https://console.cloud.google.com/logs/viewer?project=wyddatabase&folder&organizationId&minLogLevel=0&expandAll=false&timestamp=2018-06-15T17:17:58.606000000Z&customFacets=&limitCustomFacetWidth=true&dateRangeEnd=2018-06-15T17:17:58.856Z&interval=PT1H&resource=gae_app&scrollTimestamp=2018-06-15T17:17:04.075000000Z&dateRangeStart=2018-06-15T16:17:58.856Z
+// https://console.cloud.google.com/appengine/taskqueues/cron?project=wyddatabase&folder&organizationId&tab=CRON
+/*exports.hourly_job =
+	functions.pubsub.topic('hourly-tick').onPublish((event) => {
+		// get current date and time
+		var currentDate = new Date();
+		// time is stored in negatives in the database, so multiply by -1
+		var currentNumMilliseconds = currentDate.getTime() * -1;
+		var runTime = new Date(currentNumMilliseconds * -1);
+		console.log("Hourly Archive Ran at: " + runTime);
+		// add 2 days worth of time
+		// UPDATE: 3 days
+		var twoDaysAgo = currentNumMilliseconds + (3 * 24 * 60 * 60 * 1000);
+		var cutoffDate = new Date(twoDaysAgo * -1);
+		console.log("Query start at date: " + cutoffDate);
+		const ref = admin.database().ref('motives');
+		// query all motives more than 2 days old
+		return ref.orderByChild("time").startAt(twoDaysAgo).once('value').then(function (snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+		    	var key = childSnapshot.key;
+  				var motive = childSnapshot.val();
+				// add to archives
+				const archiveRef = admin.database().ref('archive/' + motive.id).set({
+					creator: motive.creator,
+					text: motive.text,
+					id: motive.id,
+					latitude: motive.latitude,
+					longitude: motive.longitude,
+					time: motive.time,
+					numGoing: motive.numGoing,
+					nC: motive.nC,
+					icon: motive.icon
+				});
+				// copy motivesGoing to archivesGoing
+				const archiveGoingRef = admin.database().ref('archiveGoing/' + motive.id);
+				const goingRef = admin.database().ref('motivesGoing/' + motive.id).once("value", function(snapshot) {
+					snapshot.forEach(function(childSnapshot) {
+						archiveGoingRef.child(childSnapshot.key).set(childSnapshot.key);
+					});
+				});
+				// add points to the users directory 
+				const pointsRef = admin.database().ref('users/' + motive.creator + '/p');
+				const addPoints = pointsRef.once("value", function(snapshot) {
+					if (motive.numGoing > 0) {
+						var currentPoints = snapshot.val();
+						var newPoints = currentPoints + (motive.numGoing * 5);
+						pointsRef.set(newPoints);
+						console.log("User " + motive.creator + " new point count: " + newPoints);
+					}
+				});
+				// promise to wait for all of the archives to set in database before deleting
+   				Promise.all([goingRef, archiveRef, addPoints]).then(() => {
+	   				// delete from motives & motivesGoing
+					const deleteRef = admin.database().ref('motives/' + motive.id).remove();
+					const delegeGoingRef = admin.database().ref('motivesGoing/' + motive.id).remove();
+					var createTime = new Date(motive.time * -1);
+					console.log("Motive created on: " + createTime + " Archived: " + motive.id);
+				});
+   			
+			});
+
+		});
+
+  	});*/
+
+exports.countGoing = functions.https.onCall((data, context) => {
+	// Checking that the user is authenticated.
+	if (!context.auth) {
+		throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
+	}
+	const id = data.id;
+	var numGoing = 0;
+	return admin.database().ref('motivesGoing/' + id).once("value", function(snapshot) {
+		
+		if (snapshot.exists()) {
+			numGoing = snapshot.numChildren();
+		}
+
+	}).then(() => {
+		console.log(id + ' sent to client ' + numGoing);
+			return { num: numGoing };
+	})
+});
+
+exports.countComments = functions.https.onCall((data, context) => {
+	// Checking that the user is authenticated.
+	if (!context.auth) {
+		throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
+	}
+	const id = data.id;
+	var numComments = 0;
+	return admin.database().ref('motiveComments/' + id).once("value", function(snapshot) {
+		
+		if (snapshot.exists()) {
+			numComments = snapshot.numChildren();
+		}
+
+	}).then(() => {
+		console.log('Comment ' + id + ' sent to client ' + numComments);
+			return { num: numComments };
+	})
+});
+
+exports.countFollowers = functions.https.onCall((data, context) => {
+	// Checking that the user is authenticated.
+	if (!context.auth) {
+		throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
+	}
+	const id = data.id;
+	var numFollowers = 0;
+	return admin.database().ref('followers/' + id).once("value", function(snapshot) {
+		
+		if (snapshot.exists()) {
+			numFollowers = snapshot.numChildren();
+		}
+
+	}).then(() => {
+		console.log('numfollowers sent to client: ' + numFollowers);
+		return { num: numFollowers };
+	})
+});
+
+// function called when request is accepted - counts currentusers followers and other users following
+exports.requestAccepted = functions.https.onCall((data, context) => {
+	// Checking that the user is authenticated.
+	if (!context.auth) {
+		throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
+	}
+	const currentUserUid = data.currentUserUid;
+	const uid = data.uid;
+	var numFollowers = 0;
+	var numFollowing = 0;
+	// count followers of current user - nested promises
+	return countFollowers = admin.database().ref('followers/' + currentUserUid).once("value", function(snapshot) {
+		if (snapshot.exists()) {
+			numFollowers = snapshot.numChildren();
+		}
+		
+	}).then(() => {
+		return admin.database().ref('following/' + uid).once("value", function(snapshot) {
+			if (snapshot.exists()) {
+				numFollowing = snapshot.numChildren();
+			}
+
+		}).then(() => {
+			console.log('numfollowers of: ' + currentUserUid  +' : ' + numFollowers);
+			console.log('numfollowing of: ' + uid + ' : ' + numFollowing);
+			return { numFollowers: numFollowers, numFollowing: numFollowing };
+		})
+		
+	})
+});
+
