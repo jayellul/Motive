@@ -395,7 +395,7 @@ class CommentViewController: UIViewController, CustomInputAccessoryDelegate {
                 }
                 
                 // add to nC of the motive
-                self.functions.httpsCallable("countComments").call(["id": motive.id]) { (result, error) in
+                self.functions.httpsCallable("countComments").call(["id": motive.id, "creator": motive.creator, "name": currentUser.user.username, "commentText": comment.text]) { (result, error) in
                     if let error = error as NSError? {
                         if error.domain == FunctionsErrorDomain {
                             let message = error.localizedDescription

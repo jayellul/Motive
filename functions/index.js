@@ -131,11 +131,35 @@ exports.countComments = functions.https.onCall((data, context) => {
 		throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
 	}
 	const id = data.id;
+	const creator = data.creator;
+	const name = data.name;
+	const commentText = data.commentText;
 	var numComments = 0;
-	return admin.database().ref('motiveComments/' + id).once("value", function(snapshot) {
-		
-		if (snapshot.exists()) {
-			numComments = snapshot.numChildren();
+	var token = '';
+	const commentsPromise = admin.database().ref('motiveComments/' + id).once('value');
+	const tokensPromise = admin.database().ref('tokens/' + creator).once('value');
+	return Promise.all([commentsPromise, tokensPromise]).then(results => {
+		let commentsSnapshot = results[0];
+		let tokensSnapshot = results[1];
+
+		if (commentsSnapshot.exists()) {
+			numComments = commentsSnapshot.numChildren();
+		}
+
+		if (tokensSnapshot.exists()) {
+			token = tokensSnapshot.val();
+		}
+
+		const payload = {
+          notification: {
+            title: '',
+            body: name + ' commented \"' + commentText + '\" on your Motive.'
+          }
+	    };
+	    if (token != '') {
+			return admin.messaging().sendToDevice(token, payload);
+		} else {
+			return 
 		}
 
 	}).then(() => {
@@ -143,6 +167,17 @@ exports.countComments = functions.https.onCall((data, context) => {
 			return { num: numComments };
 	})
 });
+
+/*	return admin.database().ref('motiveComments/' + id).once("value", function(snapshot) {
+		
+		if (snapshot.exists()) {
+			numComments = snapshot.numChildren();
+		}
+
+	}).then(() => {
+			return { num: numComments };
+	})
+});*/
 
 exports.countFollowers = functions.https.onCall((data, context) => {
 	// Checking that the user is authenticated.
