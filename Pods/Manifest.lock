@@ -11,6 +11,9 @@ PODS:
   - Firebase/Functions (4.13.0):
     - Firebase/Core
     - FirebaseFunctions (= 1.0.0)
+  - Firebase/Messaging (4.13.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 2.2.0)
   - Firebase/Storage (4.13.0):
     - Firebase/Core
     - FirebaseStorage (= 2.2.0)
@@ -35,6 +38,12 @@ PODS:
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseInstanceID (2.0.10):
     - FirebaseCore (~> 4.0)
+  - FirebaseMessaging (2.2.0):
+    - FirebaseAnalytics (~> 4.1)
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.5)
   - FirebaseStorage (2.2.0):
     - FirebaseAnalytics (~> 4.1)
     - FirebaseCore (~> 4.0)
@@ -42,6 +51,8 @@ PODS:
   - GoogleToolboxForMac/DebugUtils (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - GoogleToolboxForMac/Defines (2.1.3)
+  - GoogleToolboxForMac/Logger (2.1.3):
+    - GoogleToolboxForMac/Defines (= 2.1.3)
   - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.3)":
@@ -62,6 +73,7 @@ PODS:
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
   - ODRefreshControl (1.2)
+  - Protobuf (3.6.1)
   - SDWebImage (4.3.3):
     - SDWebImage/Core (= 4.3.3)
   - SDWebImage/Core (4.3.3)
@@ -72,6 +84,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Functions
+  - Firebase/Messaging
   - Firebase/Storage
   - Mapbox-iOS-SDK
   - NotificationBannerSwift
@@ -87,6 +100,7 @@ SPEC REPOS:
     - FirebaseDatabase
     - FirebaseFunctions
     - FirebaseInstanceID
+    - FirebaseMessaging
     - FirebaseStorage
     - GoogleToolboxForMac
     - GTMSessionFetcher
@@ -96,6 +110,7 @@ SPEC REPOS:
     - nanopb
     - NotificationBannerSwift
     - ODRefreshControl
+    - Protobuf
     - SDWebImage
     - SnapKit
 
@@ -107,6 +122,7 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 5f0bc6134c5c237cf55f9e1249d406770a75eafd
   FirebaseFunctions: 3745fada03bd706a9b5c0b9ae7b2d490fa594d21
   FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
+  FirebaseMessaging: 75cdb862e86c30e0913a2ff307e48d49357c5b73
   FirebaseStorage: 0c223481c8f89ed300cf1239ddd2d9833622c65f
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
@@ -116,9 +132,10 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
   ODRefreshControl: 907e6149d72dde488d5917ccfabee5bd8d711a20
+  Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 5bd7eb12ad97334655659ade9cc72874c067c4fa
+PODFILE CHECKSUM: c1013a7b0d757f5cea27449183addb654c33a7a7
 
 COCOAPODS: 1.5.3

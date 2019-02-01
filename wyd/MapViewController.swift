@@ -71,6 +71,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, ChooseLoca
     let motivesReference = Database.database().reference(withPath: kMotivesListPath)
     static let kMotivesGoingListPath = "motivesGoing"
     let motivesGoingReference = Database.database().reference(withPath: kMotivesGoingListPath)
+    static let kTokensListPath = "tokens"
+    let tokensReference = Database.database().reference(withPath: kTokensListPath)
     
     // location manager for displaying user location
     let locationManager = CLLocationManager()
@@ -253,12 +255,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, ChooseLoca
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        
-        // SUPER FIREBASE RESET - CARE
-        /*self.motivesReference.setValue(nil)
-        self.motivesGoingReference.setValue(nil)
-        Database.database().reference(withPath: "archive").setValue(nil)
-        Database.database().reference(withPath: "archiveGoing").setValue(nil)*/
  
         if Auth.auth().currentUser?.uid == nil {
             // no user signed in - error handle
@@ -366,6 +362,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, ChooseLoca
                     // after current user has been loaded load the motives
                     (self.tabBarController as? CustomTabBarController)?.loadMotivesIntoView()
                     self.showActivityIndicator()
+                    // add token to database
+                    self.tokensReference.child(newCurrentUser.user.uid).setValue(Messaging.messaging().fcmToken)
                 }
             }
         }

@@ -11,6 +11,7 @@ target 'wyd' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'Firebase/Functions'
+  pod 'Firebase/Messaging'
   pod 'NotificationBannerSwift'
   pod 'SDWebImage'
   pod 'ODRefreshControl'

@@ -225,7 +225,7 @@ class MotiveTableViewCell: UITableViewCell {
         // add to tab bar in map view
         cellViewDelegate?.goingPressed(motive: motive)
         // make http call
-        functions.httpsCallable("countGoing").call(["id": motive.id]) { (result, error) in
+        functions.httpsCallable("countGoing").call(["id": motive.id, "creator": motive.creator, "name": motiveAndUser.user.username]) { (result, error) in
             if let error = error as NSError? {
                 if error.domain == FunctionsErrorDomain {
                     let message = error.localizedDescription
@@ -267,7 +267,7 @@ class MotiveTableViewCell: UITableViewCell {
         // add to tab bar in map view
         cellViewDelegate?.unGoPressed(motive: motive)
         // make http call
-        functions.httpsCallable("countGoing").call(["id": motive.id]) { (result, error) in
+        functions.httpsCallable("countGoing").call(["id": motive.id, "creator": motive.creator, "name": motiveAndUser.user.username]) { (result, error) in
             if let error = error as NSError? {
                 if error.domain == FunctionsErrorDomain {
                     let message = error.localizedDescription

@@ -88,11 +88,35 @@ exports.countGoing = functions.https.onCall((data, context) => {
 		throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
 	}
 	const id = data.id;
+	const creator = data.creator;
+	const name = data.name;
 	var numGoing = 0;
-	return admin.database().ref('motivesGoing/' + id).once("value", function(snapshot) {
-		
-		if (snapshot.exists()) {
-			numGoing = snapshot.numChildren();
+	var token = '';
+	const goingPromise = admin.database().ref('motivesGoing/' + id).once('value');
+	const tokensPromise = admin.database().ref('tokens/' + creator).once('value');
+	return Promise.all([goingPromise, tokensPromise]).then(results => {
+		let goingSnapshot = results[0];
+		let tokensSnapshot = results[1];
+
+		if (goingSnapshot.exists()) {
+			numGoing = goingSnapshot.numChildren();
+		}
+
+		if (tokensSnapshot.exists()) {
+			token = tokensSnapshot.val();
+			console.log(token);
+		}
+
+		const payload = {
+          notification: {
+            title: '',
+            body: name + ' is going to your Motive.'
+          }
+	    };
+	    if (token != '') {
+			return admin.messaging().sendToDevice(token, payload);
+		} else {
+			return 
 		}
 
 	}).then(() => {
