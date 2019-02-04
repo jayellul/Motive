@@ -24,7 +24,6 @@ class MotiveTableViewCell: UITableViewCell {
     let usersGoingReference = Database.database().reference(withPath: kUsersGoingListPath)
     static let kUsersListPath = "users"
     let usersReference = Database.database().reference(withPath: kUsersListPath)
-    lazy var functions = Functions.functions()
     
     var motiveAndUser: MotiveAndUser?
     var cellViewDelegate: CalloutViewDelegate?
@@ -224,18 +223,7 @@ class MotiveTableViewCell: UITableViewCell {
         goingLabel.setTitle(" " + String(motive.numGoing), for: .highlighted)
         // add to tab bar in map view
         cellViewDelegate?.goingPressed(motive: motive)
-        // make http call
-        functions.httpsCallable("countGoing").call(["id": motive.id, "creator": motive.creator, "name": motiveAndUser.user.username]) { (result, error) in
-            if let error = error as NSError? {
-                if error.domain == FunctionsErrorDomain {
-                    let message = error.localizedDescription
-                    print (message)
-                }
-            } else if let numGoing = (result?.data as? [String: Any])?["num"] as? Int {
-                print (numGoing)
-                self.motivesReference.child(motive.id).child("numGoing").setValue(numGoing)
-            }
-        }
+
         // change action
         goingLabel.removeTarget(self, action: #selector(goingLabelTapped(_:)), for: .touchUpInside)
         goingLabel.addTarget(self, action: #selector(ungoingLabelTapped(_:)), for: .touchUpInside)
@@ -266,18 +254,7 @@ class MotiveTableViewCell: UITableViewCell {
         goingLabel.setTitle(" " + String(motive.numGoing), for: .highlighted)
         // add to tab bar in map view
         cellViewDelegate?.unGoPressed(motive: motive)
-        // make http call
-        functions.httpsCallable("countGoing").call(["id": motive.id, "creator": motive.creator, "name": motiveAndUser.user.username]) { (result, error) in
-            if let error = error as NSError? {
-                if error.domain == FunctionsErrorDomain {
-                    let message = error.localizedDescription
-                    print (message)
-                }
-            } else if let numGoing = (result?.data as? [String: Any])?["num"] as? Int {
-                print (numGoing)
-                self.motivesReference.child(motive.id).child("numGoing").setValue(numGoing)
-            }
-        }
+
         // set target back to normal
         goingLabel.removeTarget(self, action: #selector(ungoingLabelTapped(_:)), for: .touchUpInside)
         goingLabel.addTarget(self, action: #selector(goingLabelTapped(_:)), for: .touchUpInside)

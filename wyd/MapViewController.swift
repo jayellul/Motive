@@ -73,7 +73,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, ChooseLoca
     let motivesGoingReference = Database.database().reference(withPath: kMotivesGoingListPath)
     static let kTokensListPath = "tokens"
     let tokensReference = Database.database().reference(withPath: kTokensListPath)
-    
+    lazy var functions = Functions.functions()
+
     // location manager for displaying user location
     let locationManager = CLLocationManager()
     
@@ -555,6 +556,19 @@ extension MapViewController: CalloutViewDelegate {
         calloutView.setupUserGoing()
         calloutView.goingLabel.sizeToFit()
         calloutView.goingLabelWidthConstraint.constant = calloutView.goingLabel.frame.width + 15
+        guard let currentUser = (self.tabBarController as? CustomTabBarController)?.currentUser else { return }
+        // make http call
+        functions.httpsCallable("countGoing").call(["id": motive.id, "creator": motive.creator, "name": currentUser.user.username]) { (result, error) in
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let message = error.localizedDescription
+                    print (message)
+                }
+            } else if let numGoing = (result?.data as? [String: Any])?["num"] as? Int {
+                print (numGoing)
+                self.motivesReference.child(motive.id).child("numGoing").setValue(numGoing)
+            }
+        }
     }
     
     func unGoPressed(motive: Motive) {
@@ -567,6 +581,18 @@ extension MapViewController: CalloutViewDelegate {
         calloutView.setupUserNotGoing()
         calloutView.goingLabel.sizeToFit()
         calloutView.goingLabelWidthConstraint.constant = calloutView.goingLabel.frame.width + 15
+        // make http call
+        functions.httpsCallable("countGoing").call(["id": motive.id, "creator": motive.creator, "name": ""]) { (result, error) in
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let message = error.localizedDescription
+                    print (message)
+                }
+            } else if let numGoing = (result?.data as? [String: Any])?["num"] as? Int {
+                print (numGoing)
+                self.motivesReference.child(motive.id).child("numGoing").setValue(numGoing)
+            }
+        }
     }
     
     // function to change the constant value of calloutTopConstraint to animate the calloutview going down

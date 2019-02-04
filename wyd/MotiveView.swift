@@ -31,9 +31,6 @@ class MotiveView: UIView {
     let motivesGoingReference = Database.database().reference(withPath: kMotivesGoingListPath)
     static let kUsersGoingListPath = "usersGoing"
     let usersGoingReference = Database.database().reference(withPath: kUsersGoingListPath)
-    
-    // functions variable
-    lazy var functions = Functions.functions()
 
     // callout variables
     var motiveAndUser: MotiveAndUser?
@@ -257,19 +254,6 @@ class MotiveView: UIView {
         goingLabelWidthConstraint.constant = goingLabel.frame.width + 15
         // add to tab bar in map view
         calloutViewDelegate?.goingPressed(motive: motive)
-        // make http call
-        functions.httpsCallable("countGoing").call(["id": motive.id]) { (result, error) in
-            if let error = error as NSError? {
-                if error.domain == FunctionsErrorDomain {
-                    let message = error.localizedDescription
-                    print (message)
-                }
-            }
-            if let numGoing = (result?.data as? [String: Any])?["num"] as? Int {
-                print (numGoing)
-                self.motivesReference.child(motive.id).child("numGoing").setValue(numGoing)
-            }
-        }
         // change action
         goingLabel.removeTarget(self, action: #selector(goingLabelTapped(_:)), for: .touchUpInside)
         goingLabel.addTarget(self, action: #selector(ungoingLabelTapped(_:)), for: .touchUpInside)
@@ -302,19 +286,6 @@ class MotiveView: UIView {
         goingLabelWidthConstraint.constant = goingLabel.frame.width + 15
         // add to tab bar in map view
         calloutViewDelegate?.unGoPressed(motive: motive)
-        // make http call
-        functions.httpsCallable("countGoing").call(["id": motive.id]) { (result, error) in
-            if let error = error as NSError? {
-                if error.domain == FunctionsErrorDomain {
-                    let message = error.localizedDescription
-                    print (message)
-                }
-            }
-            if let numGoing = (result?.data as? [String: Any])?["num"] as? Int {
-                print (numGoing)
-                self.motivesReference.child(motive.id).child("numGoing").setValue(numGoing)
-            }
-        }
         // set target back to normal
         goingLabel.removeTarget(self, action: #selector(ungoingLabelTapped(_:)), for: .touchUpInside)
         goingLabel.addTarget(self, action: #selector(goingLabelTapped(_:)), for: .touchUpInside)

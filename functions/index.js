@@ -113,7 +113,7 @@ exports.countGoing = functions.https.onCall((data, context) => {
             body: name + ' is going to your Motive.'
           }
 	    };
-	    if (token != '') {
+	    if (name != '' && token != '') {
 			return admin.messaging().sendToDevice(token, payload);
 		} else {
 			return 
@@ -156,7 +156,7 @@ exports.countComments = functions.https.onCall((data, context) => {
             body: name + ' commented \"' + commentText + '\" on your Motive.'
           }
 	    };
-	    if (token != '') {
+	    if (name != '' && token != '') {
 			return admin.messaging().sendToDevice(token, payload);
 		} else {
 			return 
@@ -185,11 +185,33 @@ exports.countFollowers = functions.https.onCall((data, context) => {
 		throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
 	}
 	const id = data.id;
+	const name = data.name;
+	var token = '';
 	var numFollowers = 0;
-	return admin.database().ref('followers/' + id).once("value", function(snapshot) {
-		
-		if (snapshot.exists()) {
-			numFollowers = snapshot.numChildren();
+	const followersPromise = admin.database().ref('followers/' + id).once('value');
+	const tokensPromise = admin.database().ref('tokens/' + id).once('value');
+	return Promise.all([followersPromise, tokensPromise]).then(results => {
+		let followersSnapshot = results[0];
+		let tokensSnapshot = results[1];
+
+		if (followersSnapshot.exists()) {
+			numFollowers = followersSnapshot.numChildren();
+		}
+
+		if (tokensSnapshot.exists()) {
+			token = tokensSnapshot.val();
+		}
+
+		const payload = {
+          notification: {
+            title: '',
+            body: name + ' is now following you.'
+          }
+	    };
+	    if (name != '' && token != '') {
+			return admin.messaging().sendToDevice(token, payload);
+		} else {
+			return 
 		}
 
 	}).then(() => {

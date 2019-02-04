@@ -47,7 +47,8 @@ class FeedViewController: UIViewController, SliderDelegate, TabDelegate {
     let motivesReference = Database.database().reference(withPath: kMotivesListPath)
     static let kMotivesGoingListPath = "motivesGoing"
     let motivesGoingReference = Database.database().reference(withPath: kMotivesGoingListPath)
-    
+    lazy var functions = Functions.functions()
+
 
     // ui kit components
     @IBOutlet weak var transitionView: UIView!
@@ -406,11 +407,36 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource, UIScro
     func goingPressed(motive: Motive) {
         (tabBarController as? CustomTabBarController)?.userMotiveGoingSet.insert(motive.id)
         motiveHashTableDelegate?.storeMotive(motive: motive)
+        guard let currentUser = (self.tabBarController as? CustomTabBarController)?.currentUser else { return }
+        // make http call
+        functions.httpsCallable("countGoing").call(["id": motive.id, "creator": motive.creator, "name": currentUser.user.username]) { (result, error) in
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let message = error.localizedDescription
+                    print (message)
+                }
+            } else if let numGoing = (result?.data as? [String: Any])?["num"] as? Int {
+                print (numGoing)
+                self.motivesReference.child(motive.id).child("numGoing").setValue(numGoing)
+            }
+        }
     }
     
     func unGoPressed(motive: Motive) {
         (tabBarController as? CustomTabBarController)?.userMotiveGoingSet.remove(motive.id)
         motiveHashTableDelegate?.storeMotive(motive: motive)
+        // make http call
+        functions.httpsCallable("countGoing").call(["id": motive.id, "creator": motive.creator, "name": ""]) { (result, error) in
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let message = error.localizedDescription
+                    print (message)
+                }
+            } else if let numGoing = (result?.data as? [String: Any])?["num"] as? Int {
+                print (numGoing)
+                self.motivesReference.child(motive.id).child("numGoing").setValue(numGoing)
+            }
+        }
     }
     
     // scroll to the top of the table

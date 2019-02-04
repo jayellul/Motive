@@ -446,10 +446,20 @@ extension FriendViewController: UITableViewDelegate, UITableViewDataSource, UISc
                 // user is not private - follow cell user
                 self.followersReference.child(cellUid).child(currentUserUid).setValue(timestamp)
                 self.followingReference.child(currentUserUid).child(cellUid).setValue(true)
-                // call function to count num following for user in cell
-                self.functionsNumFollowersCall(cellUid)
                 // update objects in tab bar
                 if let currentUser = (self.tabBarController as? CustomTabBarController)?.currentUser {
+                    // push notification and followers counter for user in cell
+                    self.functions.httpsCallable("countFollowers").call(["id": cellUid, "name": currentUser.user.username]) { (result, error) in
+                        if let error = error as NSError? {
+                            if error.domain == FunctionsErrorDomain {
+                                let message = error.localizedDescription
+                                print (message)
+                            }
+                        } else if let numFollowers = (result?.data as? [String: Any])?["num"] as? Int {
+                            print (numFollowers)
+                            self.usersReference.child(cellUid).child("nFers").setValue(numFollowers)
+                        }
+                    }
                     // update current user object
                     currentUser.followingSet.insert(cellUid)
                     var updatedCurrentUser = currentUser.user
@@ -496,20 +506,7 @@ extension FriendViewController: UITableViewDelegate, UITableViewDataSource, UISc
         // Present the alert.
         self.present(alert, animated: true, completion: nil)*/
     }
-    // call firebase functions to write num followers for user
-    func functionsNumFollowersCall(_ uid: String) {
-        self.functions.httpsCallable("countFollowers").call(["id": uid]) { (result, error) in
-            if let error = error as NSError? {
-                if error.domain == FunctionsErrorDomain {
-                    let message = error.localizedDescription
-                    print (message)
-                }
-            } else if let numFollowers = (result?.data as? [String: Any])?["num"] as? Int {
-                print (numFollowers)
-                self.usersReference.child(uid).child("nFers").setValue(numFollowers)
-            }
-        }
-    }
+    
     // undo the follow request
     @objc func requestSentPressed(_ sender: UIButton!) {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }

@@ -816,10 +816,20 @@ class UserViewController: UIViewController, EditProfileDelegate {
         self.followersReference.child(uid).child(currentUserUid).setValue(timestamp)
         // add to current users following
         self.followingReference.child(currentUserUid).child(uid).setValue(true)
-        // functions call to count nFers
-        self.functionsNumFollowersCall(user.uid)
         // update objects in tab bar
         if let currentUser = (self.tabBarController as? CustomTabBarController)?.currentUser {
+            // nfers call
+            self.functions.httpsCallable("countFollowers").call(["id": uid, "name": currentUser.user.username]) { (result, error) in
+                if let error = error as NSError? {
+                    if error.domain == FunctionsErrorDomain {
+                        let message = error.localizedDescription
+                        print (message)
+                    }
+                } else if let numFollowers = (result?.data as? [String: Any])?["num"] as? Int {
+                    print (numFollowers)
+                    self.usersReference.child(uid).child("nFers").setValue(numFollowers)
+                }
+            }
             // update current user object
             (self.tabBarController as? CustomTabBarController)?.currentUser?.followingSet.insert(uid)
             var updatedUser = currentUser.user
@@ -851,6 +861,7 @@ class UserViewController: UIViewController, EditProfileDelegate {
         // remove user from both people friends list
         alert.addAction(UIAlertAction(title: "Unfollow", style: .default, handler: {(action:UIAlertAction!) in
             // update tab bar objects
+            guard let user = self.user else { return }
             if let customTabBarController = self.tabBarController as? CustomTabBarController {
                 if let currentUser = customTabBarController.currentUser {
                     let currentUserUid = currentUser.user.uid
@@ -859,7 +870,17 @@ class UserViewController: UIViewController, EditProfileDelegate {
                     // remove from current users following
                     self.followingReference.child(currentUserUid).child(user.uid).removeValue()
                     // functions call to count nFers
-                    self.functionsNumFollowersCall(user.uid)
+                    self.functions.httpsCallable("countFollowers").call(["id": user.uid]) { (result, error) in
+                        if let error = error as NSError? {
+                            if error.domain == FunctionsErrorDomain {
+                                let message = error.localizedDescription
+                                print (message)
+                            }
+                        } else if let numFollowers = (result?.data as? [String: Any])?["num"] as? Int {
+                            print (numFollowers)
+                            self.usersReference.child(user.uid).child("nFers").setValue(numFollowers)
+                        }
+                    }
                     // update current user object
                     currentUser.followingSet.remove(user.uid)
                     var updatedCurrentUserUser = currentUser.user
@@ -886,22 +907,7 @@ class UserViewController: UIViewController, EditProfileDelegate {
         // Present the alert.
         self.present(alert, animated: true, completion: nil)
     }
-    
-    // call firebase functions to write num followers for user
-    func functionsNumFollowersCall(_ uid: String) {
-        self.functions.httpsCallable("countFollowers").call(["id": uid]) { (result, error) in
-            if let error = error as NSError? {
-                if error.domain == FunctionsErrorDomain {
-                    let message = error.localizedDescription
-                    print (message)
-                }
-            } else if let numFollowers = (result?.data as? [String: Any])?["num"] as? Int {
-                print (numFollowers)
-                self.usersReference.child(uid).child("nFers").setValue(numFollowers)
-            }
-        }
-    }
-    
+
     // send request to other user
     @objc func followPrivatePressed(_ sender: UIButton!) {
         guard let user = self.user else { return }
