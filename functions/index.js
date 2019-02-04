@@ -110,7 +110,8 @@ exports.countGoing = functions.https.onCall((data, context) => {
 		const payload = {
           notification: {
             title: '',
-            body: name + ' is going to your Motive.'
+            body: name + ' is going to your Motive.',
+            sound: 'default'
           }
 	    };
 	    if (name != '' && token != '') {
@@ -153,7 +154,8 @@ exports.countComments = functions.https.onCall((data, context) => {
 		const payload = {
           notification: {
             title: '',
-            body: name + ' commented \"' + commentText + '\" on your Motive.'
+            body: name + ' commented \"' + commentText + '\" on your Motive.',
+            sound: 'default'
           }
 	    };
 	    if (name != '' && token != '') {
@@ -205,7 +207,8 @@ exports.countFollowers = functions.https.onCall((data, context) => {
 		const payload = {
           notification: {
             title: '',
-            body: name + ' is now following you.'
+            body: name + ' is now following you.',
+            sound: 'default'
           }
 	    };
 	    if (name != '' && token != '') {
@@ -227,27 +230,45 @@ exports.requestAccepted = functions.https.onCall((data, context) => {
 		throw new functions.https.HttpsError('failed-precondition', 'The function must be called ' + 'while authenticated.');
 	}
 	const currentUserUid = data.currentUserUid;
-	const uid = data.uid;
+	const id = data.id;
+	const name = data.name;
 	var numFollowers = 0;
 	var numFollowing = 0;
+	var token = '';
 	// count followers of current user - nested promises
-	return countFollowers = admin.database().ref('followers/' + currentUserUid).once("value", function(snapshot) {
-		if (snapshot.exists()) {
-			numFollowers = snapshot.numChildren();
+	const followersPromise = admin.database().ref('followers/' + currentUserUid).once('value');
+	const followingPromise = admin.database().ref('following/' + id).once('value');
+	const tokensPromise = admin.database().ref('tokens/' + id).once('value');
+	return Promise.all([followersPromise, followingPromise, tokensPromise]).then(results => {
+		let followersSnapshot = results[0];
+		let followingSnapshot = results[1];
+		let tokensSnapshot = results[2];
+		if (followersSnapshot.exists()) {
+			numFollowers = followersSnapshot.numChildren();
 		}
-		
-	}).then(() => {
-		return admin.database().ref('following/' + uid).once("value", function(snapshot) {
-			if (snapshot.exists()) {
-				numFollowing = snapshot.numChildren();
-			}
+		if (followingSnapshot.exists()) {
+			numFollowing = followingSnapshot.numChildren();
+		}
+		if (tokensSnapshot.exists()) {
+			token = tokensSnapshot.val();
+		}
+		const payload = {
+        	notification: {
+            	title: '',
+            	body: name + ' has accepted your follow request. You can now view their profile and posted Motives.',
+            	sound: 'default'
+          	}
+	    };
+	    if (name != '' && token != '') {
+			return admin.messaging().sendToDevice(token, payload);
+		} else {
+			return 
+		}
 
-		}).then(() => {
-			console.log('numfollowers of: ' + currentUserUid  +' : ' + numFollowers);
-			console.log('numfollowing of: ' + uid + ' : ' + numFollowing);
-			return { numFollowers: numFollowers, numFollowing: numFollowing };
-		})
-		
+	}).then(() => {
+		console.log('numfollowers of: ' + currentUserUid  +' : ' + numFollowers);
+		console.log('numfollowing of: ' + id + ' : ' + numFollowing);
+		return { numFollowers: numFollowers, numFollowing: numFollowing };
 	})
 });
 

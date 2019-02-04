@@ -253,8 +253,25 @@ extension RequestsViewController: UITableViewDelegate , UITableViewDataSource {
         let followingReference = Database.database().reference(withPath: kFollowingListPath)
         followingReference.child(user.uid).child(currentUserUid).setValue(true)
         // WRITE CURRENTUSERS NUM FOLLOWERS AND CELL USERS NUM FOLLOWING IN /USERS
-        functionsRequestAcceptedCall(currentUserUid: currentUserUid, uid: user.uid)
-        print ("db updated.")
+        self.functions.httpsCallable("requestAccepted").call(["currentUserUid": currentUserUid, "id": user.uid, "name": currentUser.user.username]) { (result, error) in
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let message = error.localizedDescription
+                    print (message)
+                }
+            } else if let numFollowers = (result?.data as? [String: Any])?["numFollowers"] as? Int {
+                if let numFollowing = (result?.data as? [String: Any])?["numFollowing"] as? Int {
+                    // add to current users numfollowers count
+                    self.usersReference.child(currentUserUid).child("nFers").setValue(numFollowers)
+                    // add to other users numfollowing
+                    self.usersReference.child(user.uid).child("nFing").setValue(numFollowing)
+                    print ("db updated.")
+                }
+                
+            } else {
+                print ("REQUEST ACCEPTED FUNCTION: BIG ERROR")
+            }
+        }
         // update current user object
         currentUser.requests.remove(at: indexPath.row)
         currentUser.user.numFollowers += 1
@@ -273,29 +290,7 @@ extension RequestsViewController: UITableViewDelegate , UITableViewDataSource {
         users.remove(at: indexPath.row)
         tableView.reloadData()
     }
-    
-    // call firebase functions to write num followers for user
-    func functionsRequestAcceptedCall(currentUserUid: String, uid: String) {
-        self.functions.httpsCallable("requestAccepted").call(["currentUserUid": currentUserUid, "uid": uid]) { (result, error) in
-            if let error = error as NSError? {
-                if error.domain == FunctionsErrorDomain {
-                    let message = error.localizedDescription
-                    print (message)
-                }
-            } else if let numFollowers = (result?.data as? [String: Any])?["numFollowers"] as? Int {
-                if let numFollowing = (result?.data as? [String: Any])?["numFollowing"] as? Int {
-                    // add to current users numfollowers count
-                    self.usersReference.child(currentUserUid).child("nFers").setValue(numFollowers)
-                    // add to other users numfollowing
-                    self.usersReference.child(uid).child("nFing").setValue(numFollowing)
-                }
-                
-            } else {
-                print ("REQUEST ACCEPTED FUNCTION: BIG ERROR")
-            }
-        }
-    }
-    
+
     // objective-c function for when user taps the decline button in any cell
     @objc func declineTapped(_ sender: LoadingButton!) {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
