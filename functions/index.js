@@ -114,7 +114,7 @@ exports.countGoing = functions.https.onCall((data, context) => {
             sound: 'default'
           }
 	    };
-	    if (name != '' && token != '') {
+	    if (name != '' && token != ''&& creator != context.auth.uid) {
 			return admin.messaging().sendToDevice(token, payload);
 		} else {
 			return 
@@ -158,7 +158,7 @@ exports.countComments = functions.https.onCall((data, context) => {
             sound: 'default'
           }
 	    };
-	    if (name != '' && token != '') {
+	    if (name != '' && token != '' && creator != context.auth.uid) {
 			return admin.messaging().sendToDevice(token, payload);
 		} else {
 			return 
@@ -211,7 +211,7 @@ exports.countFollowers = functions.https.onCall((data, context) => {
             sound: 'default'
           }
 	    };
-	    if (name != '' && token != '') {
+	    if (name != '' && token != '' && id != context.auth.uid) {
 			return admin.messaging().sendToDevice(token, payload);
 		} else {
 			return 
@@ -259,7 +259,7 @@ exports.requestAccepted = functions.https.onCall((data, context) => {
             	sound: 'default'
           	}
 	    };
-	    if (name != '' && token != '') {
+	    if (name != '' && token != '' && id != currentUserUid) {
 			return admin.messaging().sendToDevice(token, payload);
 		} else {
 			return 

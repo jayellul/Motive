@@ -175,61 +175,75 @@ class SignUpVC: UIViewController {
         imageView.setToError()
         return imageView
     }()
-    
+    let termsOfServiceButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Terms of Service", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0)
+        button.setTitleColor(UIColor.white, for: .normal)
+        
+        return button
+    }()
+        
     func setupSubviews() {
         addGradientToView(view)
 
-        self.automaticallyAdjustsScrollViewInsets = false
         self.scrollView.frame.size.width = self.view.frame.size.width
-        self.scrollView.contentSize = CGSize(width: view.frame.size.width, height: view.frame.size.height)
+        self.scrollView.contentSize = CGSize(width: view.frame.size.width, height: max(view.frame.size.height, 635))
 
         self.scrollView.addSubview(profileImageView)
-        profileImageView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 80).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 65).isActive = true
         profileImageView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
         self.scrollView.addSubview(tapToChangeLabel)
-        tapToChangeLabel.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 185).isActive = true
+        tapToChangeLabel.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 170).isActive = true
         tapToChangeLabel.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
         tapToChangeLabel.widthAnchor.constraint(equalToConstant: 110).isActive = true
         tapToChangeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         self.scrollView.addSubview(imageChangeButton)
-        imageChangeButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 80).isActive = true
+        imageChangeButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 65).isActive = true
         imageChangeButton.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
         imageChangeButton.widthAnchor.constraint(equalToConstant: 110).isActive = true
         imageChangeButton.heightAnchor.constraint(equalToConstant: 125).isActive = true
         imageChangeButton.addTarget(self, action: #selector(SignUpVC.imageChangePressed(_:)), for: .touchUpInside)
         
         self.scrollView.addSubview(usernameField)
-        usernameField.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 240).isActive = true
+        usernameField.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 210).isActive = true
         usernameField.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
         usernameField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         usernameField.widthAnchor.constraint(equalToConstant: self.scrollView.frame.width - 32).isActive = true
         usernameField.delegate = self
         
         self.scrollView.addSubview(emailField)
-        emailField.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 315).isActive = true
+        emailField.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 285).isActive = true
         emailField.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
         emailField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         emailField.widthAnchor.constraint(equalToConstant: self.scrollView.frame.width - 32).isActive = true
         emailField.delegate = self
         
         self.scrollView.addSubview(passwordField)
-        passwordField.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 390).isActive = true
+        passwordField.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 360).isActive = true
         passwordField.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
         passwordField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         passwordField.widthAnchor.constraint(equalToConstant: self.scrollView.frame.width - 32).isActive = true
         passwordField.delegate = self
         
         self.scrollView.addSubview(confirmPasswordField)
-        confirmPasswordField.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 465).isActive = true
+        confirmPasswordField.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 435).isActive = true
         confirmPasswordField.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
         confirmPasswordField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         confirmPasswordField.widthAnchor.constraint(equalToConstant: self.scrollView.frame.width - 32).isActive = true
         confirmPasswordField.delegate = self
         
+        self.scrollView.addSubview(termsOfServiceButton)
+        termsOfServiceButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 475).isActive = true
+        termsOfServiceButton.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
+        termsOfServiceButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        termsOfServiceButton.widthAnchor.constraint(equalToConstant: self.scrollView.frame.width - 32).isActive = true
+        termsOfServiceButton.addTarget(self, action: #selector(SignUpVC.goToEULA(_:)), for: .touchUpInside)
         
         self.scrollView.addSubview(signUpButton)
         signUpButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 540).isActive = true
@@ -452,6 +466,11 @@ class SignUpVC: UIViewController {
             completion(true)
         }
         
+    }
+    
+    @objc func goToEULA(_ sender: Any) {
+        let EULAViewController = storyboard?.instantiateViewController(withIdentifier: "EULAViewController") as! EULAViewController
+        self.navigationController?.pushViewController(EULAViewController, animated: true)
     }
     
     // go back to login screen button

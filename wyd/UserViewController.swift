@@ -1660,6 +1660,9 @@ extension UserViewController: UITableViewDelegate, UITableViewDataSource, UIScro
                         motiveCommentsReference.child(motiveId).removeValue()
                         self.motivesGoingReference.child(motiveId).removeValue()
                         self.motivesReference.child(motiveId).removeValue()
+                        let kExploreMotivesListPath = "exploreMotives"
+                        let exploreMotivesReference = Database.database().reference(withPath: kExploreMotivesListPath)
+                        exploreMotivesReference.child(motiveId).removeValue()
                         print ("deleted post " + motiveId)
                     }
                 }

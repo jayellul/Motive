@@ -101,6 +101,7 @@
 		71BE324C20EFC6B400273A68 /* refresh-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BE324B20EFC6B400273A68 /* refresh-button.png */; };
 		71BF4D46208263F500E3454E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BF4D45208263F500E3454E /* SettingsViewController.swift */; };
 		71C710172162B45D00B9C7B5 /* KGInimitableOriginal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71C710162162B45D00B9C7B5 /* KGInimitableOriginal.ttf */; };
+		71C86C5A222D91CA007115AF /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C86C59222D91CA007115AF /* EULAViewController.swift */; };
 		71CD6BB0216CF41100E4370A /* RequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CD6BAE216CF41100E4370A /* RequestsViewController.swift */; };
 		71CD6BB1216CF41100E4370A /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CD6BAF216CF41100E4370A /* RequestTableViewCell.swift */; };
 		71D2FBC1214C0B76001B8892 /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D2FBBD214C0B76001B8892 /* mask.png */; };
@@ -251,6 +252,7 @@
 		71BE324B20EFC6B400273A68 /* refresh-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refresh-button.png"; sourceTree = "<group>"; };
 		71BF4D45208263F500E3454E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		71C710162162B45D00B9C7B5 /* KGInimitableOriginal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGInimitableOriginal.ttf; sourceTree = "<group>"; };
+		71C86C59222D91CA007115AF /* EULAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		71CD6BAE216CF41100E4370A /* RequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestsViewController.swift; sourceTree = "<group>"; };
 		71CD6BAF216CF41100E4370A /* RequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 		71D2FBBD214C0B76001B8892 /* mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask.png; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				7194C9F521B5A01C009D4692 /* InitialScreenViewController.swift */,
 				71A04A3620800970005C5EEC /* SignInVC.swift */,
 				71E34E772082716000586285 /* SignUpVC.swift */,
+				71C86C59222D91CA007115AF /* EULAViewController.swift */,
 				711AEF9A20A4C8A9005E2B01 /* CustomTabBarController.swift */,
 				7160B6DE20BB3080006B80C7 /* MapViewController.swift */,
 				71F9B12D211093540091C103 /* MapBoxAnnotation.swift */,
@@ -843,6 +846,7 @@
 				7194C9F621B5A01C009D4692 /* InitialScreenViewController.swift in Sources */,
 				71E6FF7120EDAB210068A42D /* SliderViewController.swift in Sources */,
 				71CD6BB0216CF41100E4370A /* RequestsViewController.swift in Sources */,
+				71C86C5A222D91CA007115AF /* EULAViewController.swift in Sources */,
 				71E34E782082716000586285 /* SignUpVC.swift in Sources */,
 				71071C9720C07707004029FB /* FriendViewController.swift in Sources */,
 				71BB9E86212B02E0000F06AB /* ExploreViewController.swift in Sources */,

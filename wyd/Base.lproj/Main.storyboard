@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="irX-pc-jFT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="irX-pc-jFT">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,7 +33,7 @@
                     <navigationItem key="navigationItem" id="r5Q-It-Jiw"/>
                     <connections>
                         <outlet property="scrollView" destination="6ki-la-gjF" id="p5S-Xl-hpZ"/>
-                        <segue destination="Agl-Ow-7Ay" kind="show" identifier="signInToCreateAccountSegue" animates="NO" id="sw6-Ob-rhG"/>
+                        <segue destination="7cS-lM-ott" kind="show" identifier="signInToCreateAccountSegue" animates="NO" id="sw6-Ob-rhG"/>
                         <segue destination="Co6-6z-mPQ" kind="show" identifier="userLoggedIn" animates="NO" id="p7z-4z-7Eh"/>
                     </connections>
                 </viewController>
@@ -528,7 +527,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Auo-HC-bqb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="831.20000000000005" y="128.57142857142858"/>
+            <point key="canvasLocation" x="1148" y="128"/>
         </scene>
         <!--Custom Tab Bar Controller-->
         <scene sceneID="tUh-J4-4u5">
@@ -1760,13 +1759,60 @@
                     <connections>
                         <outlet property="scrollView" destination="eoj-wG-Enj" id="tzC-JM-H7E"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="toSignInScreen" animates="NO" id="2Nf-YF-DlK"/>
-                        <segue destination="Agl-Ow-7Ay" kind="show" identifier="toSignUpScreen" animates="NO" id="g7Q-vY-8mq"/>
+                        <segue destination="7cS-lM-ott" kind="show" identifier="toSignUpScreen" animates="NO" id="g7Q-vY-8mq"/>
                         <segue destination="Co6-6z-mPQ" kind="show" identifier="userAuthenticated" animates="NO" id="MDa-HZ-eDV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zh0-LG-3wj" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="436" y="-560.09852216748766"/>
+            <point key="canvasLocation" x="41" y="-669"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Krx-hT-clu">
+            <objects>
+                <viewController storyboardIdentifier="EULAViewController" id="u13-sD-biA" customClass="EULAViewController" customModule="wyd" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7MI-an-ThJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="TTj-Lq-FmE">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="TTj-Lq-FmE" secondAttribute="bottom" id="ZGP-MB-fnz"/>
+                            <constraint firstItem="TTj-Lq-FmE" firstAttribute="top" secondItem="7MI-an-ThJ" secondAttribute="top" id="ggt-aM-Be9"/>
+                            <constraint firstItem="TTj-Lq-FmE" firstAttribute="leading" secondItem="7MI-an-ThJ" secondAttribute="leading" id="lIn-8u-3UB"/>
+                            <constraint firstAttribute="trailing" secondItem="TTj-Lq-FmE" secondAttribute="trailing" id="mbg-0e-oP3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lgx-17-asD"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="BK7-zJ-SV1"/>
+                    <connections>
+                        <outlet property="scrollView" destination="TTj-Lq-FmE" id="DMR-lf-lzY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GL7-eB-8Dq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2135" y="128"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ScF-kd-DEB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="7cS-lM-ott" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="E80-Zh-uWQ">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Agl-Ow-7Ay" kind="relationship" relationship="rootViewController" id="hvy-zz-AGD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9sn-NG-GjO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1148" y="-669"/>
         </scene>
     </scenes>
     <resources>
@@ -1779,8 +1825,8 @@
         <image name="plus-math.png" width="1600" height="1600"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="p7z-4z-7Eh"/>
         <segue reference="sw6-Ob-rhG"/>
-        <segue reference="bO1-sB-nzB"/>
+        <segue reference="MDa-HZ-eDV"/>
+        <segue reference="2Nf-YF-DlK"/>
     </inferredMetricsTieBreakers>
 </document>

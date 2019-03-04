@@ -279,31 +279,96 @@ class ExploreViewController: UIViewController, SliderDelegate, TabDelegate {
         self.tabBarController?.present(sliderViewController, animated: false, completion: nil)
     }
     
-    // function that slider returns when its table is pressed
+    /// slider modal selected a row
     func sliderSelected(row: Int) {
-        // dont reload new motives - just sort the current ones
-        self.loadMotiveTable()
+        switch row {
+        // profile
+        case 0:
+            pushProfile()
+        // feed
+        case 1:
+            return
+        // explore
+        case 2:
+            return
+        // settings
+        case 3:
+            pushSettings()
+            
+        case 4:
+            pushFollowRequests()
+        default:
+            return
+        }
     }
     // push current users profile view onto navigation view stack
     func pushProfile() {
-        /*if let user = currentUser?.user {
-         let userViewController = storyboard?.instantiateViewController(withIdentifier: "userViewController") as! UserViewController
-         userViewController.uid = user.uid
-         userViewController.user = user
-         self.navigationController?.pushViewController(userViewController, animated: true)
-         }*/
+        if let currentUser = currentUser {
+            if let snapshotView = self.view.snapshotView(afterScreenUpdates: true) {
+                if let pinchSnapshotView = self.pinchView.snapshotView(afterScreenUpdates: true) {
+                    let userViewController = storyboard?.instantiateViewController(withIdentifier: "userViewController") as! UserViewController
+                    userViewController.backgroundView = snapshotView
+                    userViewController.pinchView = pinchSnapshotView
+                    userViewController.uid = currentUser.user.uid
+                    userViewController.user = currentUser.user
+                    self.navigationController?.pushViewController(userViewController, animated: true)
+                }
+            }
+        }
     }
-    // push current users friends view onto navigation view stack
+    // push current users followers view onto navigation view stack
     func pushFollowers() {
-        /*if let user = currentUser?.user {
-         let friendViewController = storyboard?.instantiateViewController(withIdentifier: "friendViewController") as! FriendViewController
-         friendViewController.uid = user.uid
-         self.navigationController?.pushViewController(friendViewController, animated: true)
-         }*/
+        if let user = currentUser {
+            if let snapshotView = self.view.snapshotView(afterScreenUpdates: true) {
+                if let pinchSnapshotView = self.pinchView.snapshotView(afterScreenUpdates: true) {
+                    let friendViewController = storyboard?.instantiateViewController(withIdentifier: "friendViewController") as! FriendViewController
+                    friendViewController.backgroundView = snapshotView
+                    friendViewController.pinchView = pinchSnapshotView
+                    friendViewController.type = .followers
+                    friendViewController.id = user.user.uid
+                    self.navigationController?.pushViewController(friendViewController, animated: true)
+                }
+            }
+        }
     }
-    
+    // push current users following view onto navigation view stack
     func pushFollowing() {
-        
+        if let user = currentUser {
+            if let snapshotView = self.view.snapshotView(afterScreenUpdates: true) {
+                if let pinchSnapshotView = self.pinchView.snapshotView(afterScreenUpdates: true) {
+                    let friendViewController = storyboard?.instantiateViewController(withIdentifier: "friendViewController") as! FriendViewController
+                    friendViewController.backgroundView = snapshotView
+                    friendViewController.pinchView = pinchSnapshotView
+                    friendViewController.type = .following
+                    friendViewController.id = user.user.uid
+                    
+                    self.navigationController?.pushViewController(friendViewController, animated: true)
+                }
+            }
+        }
+    }
+    func pushSettings() {
+        if let snapshotView = self.view.snapshotView(afterScreenUpdates: true) {
+            if let pinchSnapshotView = self.pinchView.snapshotView(afterScreenUpdates: true) {
+                let settingsViewController = storyboard?.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
+                settingsViewController.backgroundView = snapshotView
+                settingsViewController.pinchView = pinchSnapshotView
+                self.navigationController?.pushViewController(settingsViewController, animated: true)
+            }
+        }
+    }
+    func pushFollowRequests() {
+        if let currentUser = currentUser {
+            if let snapshotView = self.view.snapshotView(afterScreenUpdates: true) {
+                if let pinchSnapshotView = self.pinchView.snapshotView(afterScreenUpdates: true) {
+                    let requestsViewController = storyboard?.instantiateViewController(withIdentifier: "requestsViewController") as! RequestsViewController
+                    requestsViewController.backgroundView = snapshotView
+                    requestsViewController.pinchView = pinchSnapshotView
+                    requestsViewController.currentUser = currentUser
+                    self.navigationController?.pushViewController(requestsViewController, animated: true)
+                }
+            }
+        }
     }
     
     
@@ -850,6 +915,7 @@ extension ExploreViewController: UITextFieldDelegate {
 
     }
 }
+
 
 
 
