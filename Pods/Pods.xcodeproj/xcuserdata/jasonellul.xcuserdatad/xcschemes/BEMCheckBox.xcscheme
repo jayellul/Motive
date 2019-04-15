@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "47A7D0E2E0754C26F45AA7A147CC4B80"
-               BlueprintName = "SDWebImage"
+               BlueprintIdentifier = "79847583714A77C68F5C3CF98135EC52"
+               BlueprintName = "BEMCheckBox"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "SDWebImage.framework">
+               BuildableName = "BEMCheckBox.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

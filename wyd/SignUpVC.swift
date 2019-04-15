@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import BEMCheckBox
 
 class SignUpVC: UIViewController {
     
@@ -178,11 +179,22 @@ class SignUpVC: UIViewController {
     let termsOfServiceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Terms of Service", for: .normal)
+        button.setTitle("I agree to the Motive Terms of Service", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0)
         button.setTitleColor(UIColor.white, for: .normal)
         
         return button
+    }()
+    
+    let checkBox: BEMCheckBox = {
+        let checkBox = BEMCheckBox(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        checkBox.onFillColor = UIColor.white
+        checkBox.onTintColor = UIColor.clear
+        checkBox.offFillColor = UIColor.white
+        checkBox.onAnimationType = BEMAnimationType.oneStroke
+        checkBox.offAnimationType = BEMAnimationType.oneStroke
+        checkBox.translatesAutoresizingMaskIntoConstraints = false
+        return checkBox
     }()
         
     func setupSubviews() {
@@ -238,10 +250,18 @@ class SignUpVC: UIViewController {
         confirmPasswordField.widthAnchor.constraint(equalToConstant: self.scrollView.frame.width - 32).isActive = true
         confirmPasswordField.delegate = self
         
+        self.scrollView.addSubview(checkBox)
+        checkBox.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 490).isActive = true
+        checkBox.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor, constant: -150).isActive = true
+        checkBox.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        checkBox.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        checkBox.addTarget(self, action: #selector(SignUpVC.goToEULA(_:)), for: .touchUpInside)
+
+        
         self.scrollView.addSubview(termsOfServiceButton)
-        termsOfServiceButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 475).isActive = true
-        termsOfServiceButton.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor).isActive = true
-        termsOfServiceButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        termsOfServiceButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 490).isActive = true
+        termsOfServiceButton.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor, constant: 50).isActive = true
+        termsOfServiceButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         termsOfServiceButton.widthAnchor.constraint(equalToConstant: self.scrollView.frame.width - 32).isActive = true
         termsOfServiceButton.addTarget(self, action: #selector(SignUpVC.goToEULA(_:)), for: .touchUpInside)
         

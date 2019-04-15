@@ -16,6 +16,7 @@ target 'wyd' do
   pod 'SDWebImage'
   pod 'ODRefreshControl'
   pod 'Mapbox-iOS-SDK'
+  pod 'BEMCheckBox'
 
 
 
