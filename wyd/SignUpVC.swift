@@ -189,12 +189,13 @@ class SignUpVC: UIViewController, BEMCheckBoxDelegate {
     let checkBox: BEMCheckBox = {
         let checkBox = BEMCheckBox(frame: CGRect(x: 0, y: 0, width: 32, height: 32))
         checkBox.boxType = BEMBoxType.square
-        checkBox.onFillColor = UIColor.clear
-        checkBox.onTintColor = UIColor.white
-        checkBox.offFillColor = UIColor.clear
-        checkBox.tintColor = UIColor.white
-        checkBox.onAnimationType = BEMAnimationType.oneStroke
-        checkBox.offAnimationType = BEMAnimationType.oneStroke
+        checkBox.onFillColor = UIColor.white
+        checkBox.onTintColor = UIColor.clear
+        checkBox.offFillColor = UIColor.white
+        checkBox.onCheckColor = UIColor(red:1.00, green:0.60, blue:0.20, alpha:1.0)
+        checkBox.tintColor = UIColor.clear
+        checkBox.onAnimationType = BEMAnimationType.bounce
+        checkBox.offAnimationType = BEMAnimationType.bounce
         checkBox.translatesAutoresizingMaskIntoConstraints = false
         return checkBox
     }()
