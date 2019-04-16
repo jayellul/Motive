@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import BEMCheckBox
 
-class SignUpVC: UIViewController, BEMCheckBoxDelegate {
+class SignUpVC: UIViewController {
     
     // firebase db references
     static let kUsersListPath = "users"
@@ -258,7 +258,6 @@ class SignUpVC: UIViewController, BEMCheckBoxDelegate {
         checkBox.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 16).isActive = true
         checkBox.heightAnchor.constraint(equalToConstant: 32).isActive = true
         checkBox.widthAnchor.constraint(equalToConstant: 32).isActive = true
-        checkBox.delegate = self
         
         self.scrollView.addSubview(termsOfServiceButton)
         termsOfServiceButton.centerYAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 512).isActive = true
@@ -363,6 +362,12 @@ class SignUpVC: UIViewController, BEMCheckBoxDelegate {
                 AlertController.showAlert(self, title: "Missing Required Fields", message: "Please fill out all of the fields.")
                 self.signUpButton.hideLoading()
                 return
+        }
+        if !self.checkBox.on {
+            // display alert asking for fields
+            AlertController.showAlert(self, title: "Terms and Conditions", message: "Please accept the terms and conditions.")
+            self.signUpButton.hideLoading()
+            return
         }
         guard let image = profileImageView.image else {
             self.signUpButton.hideLoading()

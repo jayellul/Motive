@@ -202,6 +202,8 @@ extension SettingsViewController: UITableViewDelegate , UITableViewDataSource {
 
         case 2:
             print ("terms")
+            let EULAViewController = storyboard?.instantiateViewController(withIdentifier: "EULAViewController") as! EULAViewController
+            self.navigationController?.pushViewController(EULAViewController, animated: true)
         case 3:
             print ("about")
         default:
