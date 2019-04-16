@@ -27,7 +27,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will not be visible to anyone else or recorded by Motive. Your location is only used to load Motives near you.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Press &apos;Allow&apos; to enable Motive to access your Photos</string>
+	<string>Press &apos;Allow&apos; to enable Motive to access your Photos to add a profile picture to your profile. </string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>KGInimitableOriginal.ttf</string>
