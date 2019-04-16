@@ -96,6 +96,7 @@
 		71AFC6D220BD7C3100124C60 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71AFC6D120BD7C3100124C60 /* UIKit.framework */; };
 		71B0DBE120D330630094B08E /* more-dots2.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B0DBE020D330630094B08E /* more-dots2.png */; };
 		71B0FDE820D947B000DFB1E6 /* MotiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B0FDE720D947B000DFB1E6 /* MotiveViewController.swift */; };
+		71B52B0022655C540010C243 /* report.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B52AFF22655C540010C243 /* report.png */; };
 		71BB619821113CE500587CF7 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BB619721113CE500587CF7 /* reload.png */; };
 		71BB9E86212B02E0000F06AB /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BB9E85212B02E0000F06AB /* ExploreViewController.swift */; };
 		71BE324C20EFC6B400273A68 /* refresh-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BE324B20EFC6B400273A68 /* refresh-button.png */; };
@@ -247,6 +248,7 @@
 		71AFC6D120BD7C3100124C60 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		71B0DBE020D330630094B08E /* more-dots2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more-dots2.png"; sourceTree = "<group>"; };
 		71B0FDE720D947B000DFB1E6 /* MotiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotiveViewController.swift; sourceTree = "<group>"; };
+		71B52AFF22655C540010C243 /* report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report.png; sourceTree = "<group>"; };
 		71BB619721113CE500587CF7 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
 		71BB9E85212B02E0000F06AB /* ExploreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		71BE324B20EFC6B400273A68 /* refresh-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refresh-button.png"; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 		71BF4D42208255A200E3454E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				71B52AFF22655C540010C243 /* report.png */,
 				7194C9FA21B5C397009D4692 /* error.png */,
 				7194C9F921B5C397009D4692 /* success.png */,
 				71D2FBBE214C0B76001B8892 /* block.png */,
@@ -642,6 +645,7 @@
 				71A4E68B211C82190076BB0E /* basketball.png in Resources */,
 				716AEB96213C5A29000E7F01 /* feed@1x.png in Resources */,
 				719D611E210B7672004CAC51 /* wineAnnotation.png in Resources */,
+				71B52B0022655C540010C243 /* report.png in Resources */,
 				71E6FF6920EC48230068A42D /* right-arrow.png in Resources */,
 				71813898212EEEE9005D2EDD /* speech bubble.png in Resources */,
 				71B0DBE120D330630094B08E /* more-dots2.png in Resources */,

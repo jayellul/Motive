@@ -13,8 +13,9 @@ import SDWebImage
 private let starFill = #imageLiteral(resourceName: "starFill.png")
 private let starUnfill = #imageLiteral(resourceName: "starUnfill.png")
 private let commentImage = #imageLiteral(resourceName: "speech bubble.png")
+private let menuImage = #imageLiteral(resourceName: "report.png")
 
-class MotiveTableViewCell: UITableViewCell {
+class MotiveTableViewCell: UITableViewCell, UIActionSheetDelegate {
     // firebase refs
     static let kMotivesListPath = "motives"
     let motivesReference = Database.database().reference(withPath: kMotivesListPath)
@@ -27,6 +28,7 @@ class MotiveTableViewCell: UITableViewCell {
     
     var motiveAndUser: MotiveAndUser?
     var cellViewDelegate: CalloutViewDelegate?
+    
 
     // user ui components
     let profileImageView: UIImageView = {
@@ -78,6 +80,12 @@ class MotiveTableViewCell: UITableViewCell {
         return button
     }()
     
+    let reportButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentHorizontalAlignment = .center
+        return button
+    }()
     lazy var commentsLabelWidthConstraint = commentsLabel.widthAnchor.constraint(equalToConstant: 80)
     
     let goingLabel: UIButton = {
@@ -139,6 +147,16 @@ class MotiveTableViewCell: UITableViewCell {
         commentsLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 70).isActive = true
         commentsLabelWidthConstraint.isActive = true
         commentsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        // delagate to make parent view open menu
+        self.addSubview(reportButton)
+        reportButton.setImage(resizeImage(image: menuImage, targetSize: CGSize(width: 16, height: 16)), for: .normal)
+        reportButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        // constant align star with center
+        reportButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        reportButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        reportButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+
     
         self.addSubview(goingLabel)
         goingLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
