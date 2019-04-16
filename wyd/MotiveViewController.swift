@@ -173,6 +173,16 @@ class MotiveViewController: UIViewController, CLLocationManagerDelegate {
         //button.backgroundColor = UIColor.cyan
         return button
     }()
+    let reportButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor(red:1.00, green:0.60, blue:0.20, alpha:1.0), for: .normal)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        button.setTitle("report post", for: .normal)
+        button.contentHorizontalAlignment = .center
+        return button
+    }()
     // going table view elements
     var outOfUsers: Bool = false
     var loadingMoreUsers: Bool = false
@@ -333,6 +343,16 @@ class MotiveViewController: UIViewController, CLLocationManagerDelegate {
         distanceLabel.widthAnchor.constraint(equalToConstant: self.scrollView.frame.size.width / 2).isActive = true
         distanceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         distanceLabel.rightAnchor.constraint(equalTo: scrollView.leftAnchor, constant: scrollView.frame.width - (mapButton.frame.width + 20)).isActive = true
+        
+        self.scrollView.addSubview(reportButton)
+        reportButton.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 9).isActive = true
+        if let reportButtonTextWidth = reportButton.titleLabel?.text?.width(withConstrainedHeight: 14, font: UIFont.systemFont(ofSize: 14)) {
+            reportButton.widthAnchor.constraint(equalToConstant: reportButtonTextWidth).isActive = true
+            reportButton.frame.size.width = reportButtonTextWidth
+            reportButton.heightAnchor.constraint(equalToConstant: 14).isActive = true
+            reportButton.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: scrollView.frame.width - (reportButton.frame.width + 10)).isActive = true
+            reportButton.addTarget(self, action: #selector(reportPressed(_:)), for: .touchUpInside)
+        }
 
         // add segmented control like going button - height 40px
         let fakeSegmentedControlView = UIView(frame: CGRect(x: 0, y: 280, width: scrollView.frame.width, height: 40))
@@ -407,6 +427,10 @@ class MotiveViewController: UIViewController, CLLocationManagerDelegate {
         let profileGestureRecognizer3 = UITapGestureRecognizer(target: self, action: #selector(creatorProfilePressed(_:)))
         usernameLabel.isUserInteractionEnabled = true
         usernameLabel.addGestureRecognizer(profileGestureRecognizer3)
+    }
+    
+    @objc func reportPressed(_ sender: Any) {
+        AlertController.showAlert(self, title: "Post Reported", message: "This post has been reported. This incident will be reviewed by a moderator.")
     }
     
     // set distance label to distance from user
