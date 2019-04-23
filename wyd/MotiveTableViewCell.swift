@@ -148,14 +148,14 @@ class MotiveTableViewCell: UITableViewCell, UIActionSheetDelegate {
         commentsLabelWidthConstraint.isActive = true
         commentsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        // delagate to make parent view open menu
+        // delegate to make parent view open menu
         self.addSubview(reportButton)
         reportButton.setImage(resizeImage(image: menuImage, targetSize: CGSize(width: 16, height: 16)), for: .normal)
         reportButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-        // constant align star with center
         reportButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
         reportButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         reportButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        reportButton.addTarget(self, action: #selector(reportTapped(_:)), for: .touchUpInside)
 
     
         self.addSubview(goingLabel)
@@ -172,6 +172,12 @@ class MotiveTableViewCell: UITableViewCell, UIActionSheetDelegate {
         goingLabel.setTitle(" " + String(0), for: .normal)
         
 
+    }
+    
+    @objc func reportTapped(_ sender: Any) {
+        if let motive = motiveAndUser?.motive {
+            cellViewDelegate?.morePressed(motive: motive)
+        }
     }
 
     

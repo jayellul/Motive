@@ -20,6 +20,7 @@ protocol CalloutViewDelegate {
     func commentsPressed(motive: Motive)
     func goingPressed(motive: Motive)
     func unGoPressed(motive: Motive)
+    func morePressed(motive: Motive)
 }
 // view that comes up when user presses on a motive
 class MotiveView: UIView {

@@ -1391,7 +1391,11 @@ class UserViewController: UIViewController, EditProfileDelegate {
 }
 
 // table and scrollView view delegates
-extension UserViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, CalloutViewDelegate {
+extension UserViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, CalloutViewDelegate, UIActionSheetDelegate {
+    func morePressed(motive: Motive) {
+        
+    }
+    
     
     // manage the segmented control sticking to the top of the scrollView view
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

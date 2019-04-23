@@ -567,7 +567,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, ChooseLoca
 }
 
 // MARK: - callout view extension and functionalities
-extension MapViewController: CalloutViewDelegate {
+extension MapViewController: CalloutViewDelegate, UIActionSheetDelegate {
+    func morePressed(motive: Motive) {
+        
+    }
+    
     
     // show motive detail view
     func calloutPressed() {

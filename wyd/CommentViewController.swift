@@ -472,6 +472,11 @@ class CommentViewController: UIViewController, CustomInputAccessoryDelegate {
 
 // MARK: - table view data source and delegate
 extension CommentViewController: UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, CalloutViewDelegate {
+    
+    func morePressed(motive: Motive) {
+        
+    }
+    
  
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

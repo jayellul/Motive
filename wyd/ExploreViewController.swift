@@ -383,8 +383,28 @@ class ExploreViewController: UIViewController, SliderDelegate, TabDelegate {
 // delagate table
 // https://www.codementor.io/brettr/two-basic-ways-to-populate-your-uitableview-du107rsyx
 // https://www.weheartswift.com/firebase-101/
-extension ExploreViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, CalloutViewDelegate, FriendViewControllerDelegate {
-
+extension ExploreViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, CalloutViewDelegate, FriendViewControllerDelegate, UIActionSheetDelegate {
+    func morePressed(motive: Motive) {
+        let actionSheet = UIActionSheet(title: "Choose Option", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Save", "Delete")
+        
+        actionSheet.show(in: self.view)
+    }
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int)
+    {
+        switch (buttonIndex){
+            
+        case 0:
+            print("Cancel")
+        case 1:
+            print("Save")
+        case 2:
+            print("Delete")
+        default:
+            print("Default")
+            //Some code here..
+            
+        }
+    }
     
     
     
