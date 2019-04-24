@@ -251,6 +251,7 @@
 		71B52AFF22655C540010C243 /* report.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report.png; sourceTree = "<group>"; };
 		71BB619721113CE500587CF7 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
 		71BB9E85212B02E0000F06AB /* ExploreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
+		71BC4AB52270AAD400A3AE17 /* wyd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = wyd.entitlements; sourceTree = "<group>"; };
 		71BE324B20EFC6B400273A68 /* refresh-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refresh-button.png"; sourceTree = "<group>"; };
 		71BF4D45208263F500E3454E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		71C710162162B45D00B9C7B5 /* KGInimitableOriginal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGInimitableOriginal.ttf; sourceTree = "<group>"; };
@@ -337,6 +338,7 @@
 		71A04A3320800970005C5EEC /* wyd */ = {
 			isa = PBXGroup;
 			children = (
+				71BC4AB52270AAD400A3AE17 /* wyd.entitlements */,
 				719EE3B020F8C65D00EEA99F /* HashTable.swift */,
 				71A04A3420800970005C5EEC /* AppDelegate.swift */,
 				7194C9F521B5A01C009D4692 /* InitialScreenViewController.swift */,
@@ -596,6 +598,11 @@
 				TargetAttributes = {
 					71A04A3020800970005C5EEC = {
 						CreatedOnToolsVersion = 9.3;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					71A04A4420800974005C5EEC = {
 						CreatedOnToolsVersion = 9.3;
@@ -1040,6 +1047,7 @@
 			baseConfigurationReference = 7872ECA23E2A5A38B3FB6751 /* Pods-wyd.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = wyd/wyd.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9HR3D6C5WB;
 				INFOPLIST_FILE = wyd/Info.plist;
@@ -1060,6 +1068,7 @@
 			baseConfigurationReference = 5A24EFB88E02E698782A0D3E /* Pods-wyd.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = wyd/wyd.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9HR3D6C5WB;
 				INFOPLIST_FILE = wyd/Info.plist;

@@ -396,7 +396,7 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource, UIS
         let blockActionButton = UIAlertAction(title: "Block User", style: .default) { _ in
             if let uid = Auth.auth().currentUser?.uid {
                 if (motive.creator != uid) {
-                    let kBlockedListPath = "users/" + uid + "/blocked"
+                    let kBlockedListPath = "blocked/" + uid
                     let blockedReference = Database.database().reference(withPath: kBlockedListPath)
                     let timestamp = Int64(NSDate().timeIntervalSince1970 * -1000)
                     blockedReference.child(motive.creator).setValue(timestamp)

@@ -1392,8 +1392,33 @@ class UserViewController: UIViewController, EditProfileDelegate {
 
 // table and scrollView view delegates
 extension UserViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, CalloutViewDelegate, UIActionSheetDelegate {
+    
     func morePressed(motive: Motive) {
+        //Create the AlertController and add Its action like button in Actionsheet
+        let actionSheetControllerIOS8: UIAlertController = UIAlertController(title: "Other Options", message: nil, preferredStyle: .actionSheet)
         
+        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            print("Cancel")
+        }
+        actionSheetControllerIOS8.addAction(cancelActionButton)
+        
+        let blockActionButton = UIAlertAction(title: "Block User", style: .default) { _ in
+            if let uid = Auth.auth().currentUser?.uid {
+                if (motive.creator != uid) {
+                    let kBlockedListPath = "blocked/" + uid
+                    let blockedReference = Database.database().reference(withPath: kBlockedListPath)
+                    let timestamp = Int64(NSDate().timeIntervalSince1970 * -1000)
+                    blockedReference.child(motive.creator).setValue(timestamp)
+                }
+            }
+        }
+        actionSheetControllerIOS8.addAction(blockActionButton)
+        
+        let reportActionButton = UIAlertAction(title: "Report Post", style: .default) { _ in
+            AlertController.showAlert(self, title: "Reported", message: "This post has been reported and will reviewed by a moderator.")
+        }
+        actionSheetControllerIOS8.addAction(reportActionButton)
+        self.present(actionSheetControllerIOS8, animated: true, completion: nil)
     }
     
     

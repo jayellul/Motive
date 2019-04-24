@@ -335,26 +335,33 @@ class FeedViewController: UIViewController, SliderDelegate, TabDelegate, PinchDe
 // https://www.codementor.io/brettr/two-basic-ways-to-populate-your-uitableview-du107rsyx
 // https://www.weheartswift.com/firebase-101/
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, CalloutViewDelegate, UIActionSheetDelegate {
+    
     func morePressed(motive: Motive) {
-        let actionSheet = UIActionSheet(title: "Choose Option", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil, otherButtonTitles: "Save", "Delete")
+        //Create the AlertController and add Its action like button in Actionsheet
+        let actionSheetControllerIOS8: UIAlertController = UIAlertController(title: "Other Options", message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.show(in: self.view)
-    }
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int)
-    {
-        switch (buttonIndex){
-            
-        case 0:
+        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             print("Cancel")
-        case 1:
-            print("Save")
-        case 2:
-            print("Delete")
-        default:
-            print("Default")
-            //Some code here..
-            
         }
+        actionSheetControllerIOS8.addAction(cancelActionButton)
+        
+        let blockActionButton = UIAlertAction(title: "Block User", style: .default) { _ in
+            if let uid = Auth.auth().currentUser?.uid {
+                if (motive.creator != uid) {
+                    let kBlockedListPath = "blocked/" + uid
+                    let blockedReference = Database.database().reference(withPath: kBlockedListPath)
+                    let timestamp = Int64(NSDate().timeIntervalSince1970 * -1000)
+                    blockedReference.child(motive.creator).setValue(timestamp)
+                }
+            }
+        }
+        actionSheetControllerIOS8.addAction(blockActionButton)
+        
+        let reportActionButton = UIAlertAction(title: "Report Post", style: .default) { _ in
+            AlertController.showAlert(self, title: "Reported", message: "This post has been reported and will reviewed by a moderator.")
+        }
+        actionSheetControllerIOS8.addAction(reportActionButton)
+        self.present(actionSheetControllerIOS8, animated: true, completion: nil)
     }
     
     
