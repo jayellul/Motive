@@ -40,7 +40,7 @@ class CustomInputAccessoryView: UIView, UITextViewDelegate {
     var customInputAccessoryDelegate: CustomInputAccessoryDelegate?
     var customInputAccesoryInLocationViewDelegate: CustomInputAccessoryInLocationViewDelegate?
     var previousHeight: CGFloat = 0
-    var placeholderText: String = "Spill the tea sis..."
+    var placeholderText: String = "Spill the tea..."
     let backgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = true
@@ -59,7 +59,7 @@ class CustomInputAccessoryView: UIView, UITextViewDelegate {
         textView.translatesAutoresizingMaskIntoConstraints = true
         textView.textColor = UIColor.black
         textView.font = UIFont.systemFont(ofSize: 16.0)
-        textView.text = "Spill the tea sis..."
+        textView.text = "Spill the tea..."
         textView.textAlignment = .left
         textView.backgroundColor = UIColor.clear
         textView.keyboardType = UIKeyboardType.twitter
