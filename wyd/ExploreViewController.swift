@@ -388,6 +388,12 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource, UIS
         //Create the AlertController and add Its action like button in Actionsheet
         let actionSheetControllerIOS8: UIAlertController = UIAlertController(title: "Other Options", message: nil, preferredStyle: .actionSheet)
         
+        if let popoverController = actionSheetControllerIOS8.popoverPresentationController {
+            popoverController.sourceView = self.view //to set the source of your alert
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
+            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
+        }
+        
         let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             print("Cancel")
         }

@@ -35,9 +35,6 @@ protocol MotiveHashTableDelegate {
 
 class CustomTabBarController: UITabBarController,FeedDelegate, MapDelegate, CurrentUserDelegate, UserHashTableDelegate, MotiveHashTableDelegate, ExploreDelegate {
 
-
-
-
     
 
     
@@ -94,7 +91,6 @@ class CustomTabBarController: UITabBarController,FeedDelegate, MapDelegate, Curr
     // setup all the main views
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // to make mapViewController delegate 
         let mapNavigationController = self.viewControllers![0] as! UINavigationController
         let feedNavigationController = self.viewControllers![1] as! UINavigationController
