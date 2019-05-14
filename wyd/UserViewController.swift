@@ -1411,7 +1411,7 @@ extension UserViewController: UITableViewDelegate, UITableViewDataSource, UIScro
         let blockActionButton = UIAlertAction(title: "Block User", style: .default) { _ in
             if let uid = Auth.auth().currentUser?.uid {
                 if (motive.creator != uid) {
-                        if let currentUser = (self.tabBarController as? CustomTabBarController)?.currentUser {
+                    if let currentUser = (self.tabBarController as? CustomTabBarController)?.currentUser {
                         let kBlockedListPath = "blocked/" + uid
                         let blockedReference = Database.database().reference(withPath: kBlockedListPath)
                         let timestamp = Int64(NSDate().timeIntervalSince1970 * -1000)
@@ -1423,6 +1423,7 @@ extension UserViewController: UITableViewDelegate, UITableViewDataSource, UIScro
                 }
             }
         }
+        
         actionSheetControllerIOS8.addAction(blockActionButton)
         
         let reportActionButton = UIAlertAction(title: "Report Post", style: .default) { _ in
