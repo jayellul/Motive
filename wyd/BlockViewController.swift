@@ -222,15 +222,19 @@ extension BlockViewController: UITableViewDelegate , UITableViewDataSource {
     }
     
     @objc func unblockPressed(_ sender: LoadingButton!) {
-        let indexPath = IndexPath(row: sender.tag, section: 0)
-        let cell = tableView.cellForRow(at: indexPath) as! BlockTableViewCell
-        cell.unblockButton.showLoading()
-        let user = users[indexPath.row]
-        let kBlockedListPath = "users/" + (Auth.auth().currentUser?.uid)! + "/blocked"
-        let blockedReference = Database.database().reference(withPath: kBlockedListPath)
-        blockedReference.child(user.uid).removeValue()
-        cell.unblockButton.hideLoading()
-        self.updateTable()
+        if let currentUser = (self.tabBarController as? CustomTabBarController)?.currentUser {
+            let indexPath = IndexPath(row: sender.tag, section: 0)
+            let cell = tableView.cellForRow(at: indexPath) as! BlockTableViewCell
+            cell.unblockButton.showLoading()
+            let user = users[indexPath.row]
+            let kBlockedListPath = "users/" + (Auth.auth().currentUser?.uid)! + "/blocked"
+            let blockedReference = Database.database().reference(withPath: kBlockedListPath)
+            blockedReference.child(user.uid).removeValue()
+            cell.unblockButton.hideLoading()
+            currentUser.blockedSet.remove(user.uid)
+            (self.tabBarController as? CustomTabBarController)?.currentUser = currentUser
+            self.updateTable()
+        }
     }
 
 

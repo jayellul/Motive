@@ -353,7 +353,9 @@ class CustomTabBarController: UITabBarController,FeedDelegate, MapDelegate, Curr
                     myGroup.enter()
                     self.getMotiveAndUser(postID: motiveIdSnapshot.key, completionHandler: { (motiveAndUser) in
                         if let motiveAndUser = motiveAndUser {
-                            motiveAndUsers.append(motiveAndUser)
+                            if !currentUser.blockedSet.contains( motiveAndUser.user.uid){
+                                motiveAndUsers.append(motiveAndUser)
+                            }
                         }
                         // determine if the user is going to the motive after you load it
                         self.usersGoingReference.child(currentUser.user.uid).child(motiveIdSnapshot.key).observeSingleEvent(of: .value, with: { (snapshot) in

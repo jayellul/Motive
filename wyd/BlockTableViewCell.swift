@@ -77,7 +77,6 @@ class BlockTableViewCell: UITableViewCell {
         unblockButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         unblockButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        
     }
     
     override func layoutSubviews() {
